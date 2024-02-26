@@ -21,6 +21,11 @@ export default defineNuxtModule<ModuleOptions>({
       prefix: 'MyNuxtModule'
     })
 
+    nuxt.hook('tailwindcss:config', function (tailwindConfig) {
+      tailwindConfig.content = tailwindConfig.content ?? { files: [] };
+      (Array.isArray(tailwindConfig.content) ? tailwindConfig.content : tailwindConfig.content.files).push(resolver.resolve('./runtime/components/**/*.{vue,mjs,ts}'))
+    })
+
     await installModule('@nuxt/ui')
   }
 })
